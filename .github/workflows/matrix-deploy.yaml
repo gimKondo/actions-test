@@ -1,0 +1,59 @@
+name: Empty matrix deploy
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  get_target_resources:
+    runs-on: ubuntu-latest
+    outputs:
+      resources: ${{ steps.get_resources.outputs.resources }}
+    steps:
+      - name: get resources
+        id: get_resources
+        run: |
+          echo 'resources=["c"]' >> $GITHUB_OUTPUT
+
+  deploy_stage:
+    runs-on: ubuntu-latest
+    needs: get_target_resources
+    strategy:
+      matrix:
+        resource: ${{ fromJson(needs.get_target_resources.outputs.resources) }}
+    steps:
+      - name: deploy resource
+        run: |
+          echo "deploy resource: [${{ matrix.resource }}]"
+
+  deploy_production:
+    runs-on: ubuntu-latest
+    needs: get_target_resources
+    strategy:
+      matrix:
+        resource: ${{ fromJson(needs.get_target_resources.outputs.resources) }}
+        exclude:
+          - resource: "c"
+    steps:
+      - name: deploy resource
+        run: |
+          echo "deploy resource: [${{ matrix.resource }}]"
+
+  deploy_production_workaround:
+    runs-on: ubuntu-latest
+    needs: get_target_resources
+    strategy:
+      matrix:
+        resource: ${{ fromJson(needs.get_target_resources.outputs.resources) }}
+        exclude:
+          - resource: "c"
+    steps:
+      - name: check empty matrix
+        if: ${{ matrix.resource == null }}
+        run: |
+          echo "no need to deploy anything"
+      - name: deploy resource
+        if: ${{ matrix.resource != null }}
+        run: |
+          echo "deploy resource: [${{ matrix.resource }}]"
