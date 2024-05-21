@@ -1,0 +1,13 @@
+name: tmp tag checkout
+run-name: tmp tag checkout
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'tmp/*'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
