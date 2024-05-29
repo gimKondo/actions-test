@@ -19,7 +19,7 @@ jobs:
           set -- $BRANCHES
           printf "Branches: $BRANCHES\n"
           for BRANCH in $BRANCHES ; do
-            if [[ "$BRANCH" == "main" ]]; then
+            if [[ "$BRANCH" == "origin/main" ]]; then
               exit 0
             fi
           done
