@@ -13,3 +13,14 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Fail if tagged commit is not in main branch
+        run: |
+          BRANCHES=$(git branch --contains | sed 's/^\* //')
+          set -- $BRANCHES
+          printf "Branches: $BRANCHES\n"
+          for BRANCH in $BRANCHES ; do
+            if [[ "$BRANCH" == "main" ]]; then
+              exit 0
+            fi
+          done
+          exit 1
