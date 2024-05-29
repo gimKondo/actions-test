@@ -13,12 +13,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: fetch all
-        run: |
-          git checkout main
       - name: Fail if tagged commit is not in main branch
         run: |
-          BRANCHES=$(git branch --contains | sed 's/^\* //')
+          BRANCHES=$(git branch -r --contains | sed 's/^\* //')
           set -- $BRANCHES
           printf "Branches: $BRANCHES\n"
           for BRANCH in $BRANCHES ; do
