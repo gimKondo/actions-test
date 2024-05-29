@@ -15,8 +15,7 @@ jobs:
           fetch-depth: 0
       - name: fetch all
         run: |
-          git fetch --unshallow
-          git fetch --all
+          git checkout main
       - name: Fail if tagged commit is not in main branch
         run: |
           BRANCHES=$(git branch --contains | sed 's/^\* //')
