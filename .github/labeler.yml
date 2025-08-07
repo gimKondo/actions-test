@@ -17,7 +17,7 @@ enhancement:
   - title: '^(feat|feature):'
 
 # プルリクエストのタイトルからバグ修正系と判定されるとき
-bug-fix:
+bug:
   - title: '^(fix|bug):'
 
 # プルリクエストのタイトルからドキュメント追加・修正系と判定されるとき
