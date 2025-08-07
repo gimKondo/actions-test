@@ -1,0 +1,25 @@
+########################
+# サービス区分のタグ
+########################
+# prd-aのコードl変更
+'service: prd-a':
+  - changed-files:
+      - any-glob-to-any-file: 'prd-a/**'
+'service: prd-b':
+  - changed-files:
+      - any-glob-to-any-file: 'prd-b/**'
+
+########################
+# プルリクエストの性質区分
+########################
+# プルリクエストのタイトルから機能追加・修正系と判定されるとき
+enhancement:
+  - title: '^(feat|feature):'
+
+# プルリクエストのタイトルからバグ修正系と判定されるとき
+bug-fix:
+  - title: '^(fix|bug):'
+
+# プルリクエストのタイトルからドキュメント追加・修正系と判定されるとき
+documentation:
+  - title: '^docs:'
