@@ -1,0 +1,22 @@
+name: Draft Release
+description: 'Drafts a GitHub Release for a specific service.'
+
+inputs:
+  service:
+    description: 'リリース対象のサービス名(例: hub-backend)'
+    required: true
+  tag_prefix:
+    description: '対象タグのプレフィクス (例: hub-backend-v).'
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: 'Draft Release Notes for ${{ inputs.service }}'
+      uses: release-drafter/release-drafter@v6
+      with:
+        config-path: .github/release-drafter/release-drafter-${{ inputs.service }}.yml
+        tag-prefix: ${{ inputs.tag_prefix }}
+        publish: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
