@@ -1,3 +1,3 @@
 console.log("Hello, New World!");
 console.log("Hey! Hey!");
-console.log("Oh! Year!");
+console.log("Oh! Yeah!");
