@@ -16,5 +16,6 @@ jobs:
       - name: Draft Release
         uses: ./.github/actions/draft-release
         with:
+          repo-token: '${{ secrets.GITHUB_TOKEN }}'
           service: 'prd-a'
           tag_prefix: 'prd-a-v'
