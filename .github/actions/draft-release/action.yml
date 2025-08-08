@@ -15,6 +15,4 @@ runs:
     - name: 'Draft Release Notes for ${{ inputs.service }}'
       uses: release-drafter/release-drafter@v6
       with:
-        config-path: .github/release-drafter/release-drafter-${{ inputs.service }}.yml
-        tag-prefix: ${{ inputs.tag_prefix }}
-        publish: true
+        config-name: release-drafter/release-drafter-${{ inputs.service }}.yml
