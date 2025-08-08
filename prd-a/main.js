@@ -1,1 +1,1 @@
-console.log("This is John Smith.");
+console.log("This is John Smith. Hell!");
