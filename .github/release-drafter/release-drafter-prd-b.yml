@@ -11,7 +11,7 @@ categories:
   - title: '### ✨ 新機能 & 改善'
     label: 'enhancement'
   - title: '### 🐛 バグ修正'
-    label: 'bug-fix'
+    label: 'bug'
   - title: '### 📚 ドキュメント'
     label: 'documentation'
   - title: '### ♻️ その他の変更'
