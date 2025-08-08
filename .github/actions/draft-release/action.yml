@@ -18,5 +18,3 @@ runs:
         config-path: .github/release-drafter/release-drafter-${{ inputs.service }}.yml
         tag-prefix: ${{ inputs.tag_prefix }}
         publish: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
