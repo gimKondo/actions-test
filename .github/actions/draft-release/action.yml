@@ -5,9 +5,6 @@ inputs:
   service:
     description: 'リリース対象のサービス名(例: hub-backend)'
     required: true
-  tag_prefix:
-    description: '対象タグのプレフィクス (例: hub-backend-v).'
-    required: true
 
 runs:
   using: composite

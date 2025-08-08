@@ -1,0 +1,23 @@
+name-template: 'Prd B v$NEXT_PATCH_VERSION'
+tag-template: 'prd-b-v$NEXT_PATCH_VERSION'
+
+filter-by-label: true
+
+# hub-backendのラベルが付いたPRのみを対象
+include-labels:
+  - 'service: prd-b'
+
+categories:
+  - title: '### ✨ 新機能 & 改善'
+    label: 'enhancement'
+  - title: '### 🐛 バグ修正'
+    label: 'bug-fix'
+  - title: '### 📚 ドキュメント'
+    label: 'documentation'
+  - title: '### ♻️ その他の変更'
+    label: 'other'
+
+template: |
+  ## Prd Bの変更点
+
+  $CHANGES

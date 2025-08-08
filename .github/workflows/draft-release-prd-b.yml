@@ -1,9 +1,9 @@
-name: Draft prd-a Release
+name: Draft prd-b Release
 
 on:
   push:
     tags:
-      - 'prd-a-v*'
+      - 'prd-b-v*'
 
 jobs:
   draft_release:
@@ -16,6 +16,6 @@ jobs:
       - name: Draft Release
         uses: ./.github/actions/draft-release
         with:
-          service: 'prd-a'
+          service: 'prd-b'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
