@@ -1,6 +1,5 @@
+tag-template: 'prd-b-v$NEXT_PATCH_VERSION'
 filter-by-label: true
-
-tag-prefix: 'prd-a-'
 
 # hub-backendのラベルが付いたPRのみを対象
 include-labels:
