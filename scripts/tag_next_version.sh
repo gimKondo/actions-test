@@ -51,6 +51,7 @@ if [ -z "$latest_tag" ]; then
     esac
     echo "No existing tags. Setting initial tag: ${initial_tag}"
     git tag -a ${initial_tag} -m "${SERVICE}: ${initial_tag#${PREFIX}}" origin/main
+    git push origin ${initial_tag}
     exit 0
 fi
 
@@ -83,3 +84,4 @@ next_tag=${PREFIX}${version_numbers}
 echo "create next $LEVEL tag: ${next_tag}"
 echo "${SERVICE}: v${version_numbers}"
 git tag -a ${next_tag} -m "${SERVICE}: v${version_numbers}" origin/main
+git push origin ${next_tag}
