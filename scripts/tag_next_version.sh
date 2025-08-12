@@ -22,7 +22,7 @@ fi
 
 LEVEL=$1
 SERVICE=$2
-PREFIX="${SERVICE}-v"
+PREFIX="${SERVICE}/v"
 
 # 引数 LEVEL のチェック
 if [[ ! "$LEVEL" =~ ^(patch|minor|major)$ ]]; then
