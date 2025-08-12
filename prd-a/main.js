@@ -1,5 +1,5 @@
 console.log("This is John Smith. Hello!");
 console.log("Yeah!");
-console.log("Wow!");
+console.log("Wow! Wow!");
 console.log("We are champion!");
 console.log("Changing!");

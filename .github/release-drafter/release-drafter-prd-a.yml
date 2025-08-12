@@ -1,5 +1,9 @@
 name-template: 'prd-a/v$RESOLVED_VERSION'
 tag-template: 'prd-a/v$RESOLVED_VERSION'
+tag-prefix: 'prd-a/'
+include-labels:
+  - 'service: prd-a'
+
 version-resolver:
   major:
     labels:
@@ -12,10 +16,6 @@ version-resolver:
       - 'patch'
   default: patch
 filter-by-label: true
-
-# hub-backendのラベルが付いたPRのみを対象
-include-labels:
-  - 'service: prd-a'
 
 categories:
   - title: '### ✨ 新機能 & 改善'
