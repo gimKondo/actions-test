@@ -18,4 +18,4 @@ enhancement:
 
 # ブランチ名からバグ修正系と判定されるとき
 bug:
-  - head-branch: ['^fix/', '^bug/']
+  - head-branch: ['^fix/', '^bug/', '^hotfix/']
