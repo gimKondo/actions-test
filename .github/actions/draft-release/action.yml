@@ -15,3 +15,5 @@ runs:
         config-name: release-drafter/release-drafter-${{ inputs.service }}.yml
         commitish: ${{ github.sha }}
         tag: ${{ github.ref_name }}
+        name: ${{ github.ref_name }}
+        version: ${{ github.ref_name }}

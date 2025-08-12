@@ -1,5 +1,5 @@
-name-template: 'Prd A v$NEXT_PATCH_VERSION'
-tag-template: 'prd-a-v$NEXT_PATCH_VERSION'
+name-template: '$RESOLVED_VERSION'
+tag-template: '$RESOLVED_VERSION'
 filter-by-label: true
 
 # hub-backendのラベルが付いたPRのみを対象
