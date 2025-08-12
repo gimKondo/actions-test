@@ -1,16 +1,13 @@
 name: Update Release Drafts
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     types:
       - closed
 
 jobs:
   update_prd_a_draft:
-    if: github.event_name == 'push' || github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -25,7 +22,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   update_prd_b_draft:
-    if: github.event_name == 'push' || github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     permissions:
       contents: write
