@@ -1,7 +1,7 @@
-.PHONY: deploy-prj-a
-deploy-prj-a:
-	@./scripts/tag_next_version.sh $(LEVEL) prj-a
+.PHONY: deploy-prd-a
+deploy-prd-a:
+	@./scripts/tag_next_version.sh $(LEVEL) prd-a
 
-.PHONY: deploy-prj-b
-deploy-prj-b:
-	@./scripts/tag_next_version.sh $(LEVEL) prj-b
+.PHONY: deploy-prd-b
+deploy-prd-b:
+	@./scripts/tag_next_version.sh $(LEVEL) prd-b
