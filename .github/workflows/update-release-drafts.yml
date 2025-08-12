@@ -1,0 +1,42 @@
+name: Update Release Drafts
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  update_prd_a_draft:
+    if: github.event_name == 'push' || github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Update prd-a Draft Release
+        uses: release-drafter/release-drafter@v6
+        with:
+          config-name: release-drafter/release-drafter-prd-a.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  update_prd_b_draft:
+    if: github.event_name == 'push' || github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Update prd-b Draft Release
+        uses: release-drafter/release-drafter@v6
+        with:
+          config-name: release-drafter/release-drafter-prd-b.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

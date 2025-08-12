@@ -1,0 +1,36 @@
+name: Publish Release
+
+on:
+  push:
+    tags:
+      - 'prd-a/v*'
+      - 'prd-b/v*'
+
+jobs:
+  publish_release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Determine service from tag
+        id: service
+        run: |
+          if [[ "${{ github.ref_name }}" == prd-a/* ]]; then
+            echo "service=prd-a" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref_name }}" == prd-b/* ]]; then
+            echo "service=prd-b" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Publish Release using release-drafter
+        uses: release-drafter/release-drafter@v6
+        with:
+          config-name: release-drafter/release-drafter-${{ steps.service.outputs.service }}.yml
+          tag: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          version: ${{ github.ref_name }}
+          publish: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,5 +1,16 @@
-name-template: '$RESOLVED_VERSION'
-tag-template: '$RESOLVED_VERSION'
+name-template: 'prd-b/v$RESOLVED_VERSION (Draft)'
+tag-template: 'prd-b/v$RESOLVED_VERSION'
+version-resolver:
+  major:
+    labels:
+      - 'major'
+  minor:
+    labels:
+      - 'minor'
+  patch:
+    labels:
+      - 'patch'
+  default: patch
 filter-by-label: true
 
 # hub-backendのラベルが付いたPRのみを対象
