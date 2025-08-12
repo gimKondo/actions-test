@@ -31,16 +31,76 @@ jobs:
 
       - name: Update prd-a Draft Release
         if: steps.check_labels.outputs.has_prd_a == 'true'
-        uses: release-drafter/release-drafter@v6
-        with:
-          config-name: release-drafter/release-drafter-prd-a.yml
+        run: |
+          # 既存のprd-aドラフトを探す
+          EXISTING_DRAFT=$(gh release list --draft --json tagName,id | jq -r '.[] | select(.tagName | startswith("prd-a/")) | .id' | head -1)
+          
+          # PRからリリースノートを生成
+          echo "## Prd A の変更点" > release_notes.md
+          echo "" >> release_notes.md
+          
+          # このPRの情報を追加
+          echo "### このリリースでの変更" >> release_notes.md
+          echo "- #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}" >> release_notes.md
+          
+          if [ -n "$EXISTING_DRAFT" ]; then
+            # 既存ドラフトを更新
+            gh release view "$EXISTING_DRAFT" --json body | jq -r '.body' >> existing_notes.md
+            cat existing_notes.md >> release_notes.md
+            gh release edit "$EXISTING_DRAFT" --notes-file release_notes.md
+          else
+            # 次のバージョンを決定
+            LATEST_VERSION=$(gh release list --exclude-drafts --json tagName | jq -r '.[] | select(.tagName | startswith("prd-a/")) | .tagName' | head -1 | sed 's/prd-a\/v//')
+            if [ -z "$LATEST_VERSION" ]; then
+              NEXT_VERSION="prd-a/v0.1.0"
+            else
+              # パッチバージョンを上げる（簡易実装）
+              NEXT_VERSION="prd-a/v$(echo $LATEST_VERSION | awk -F. '{print $1"."$2"."$3+1}')"
+            fi
+            
+            # 新しいドラフト作成
+            gh release create "$NEXT_VERSION" \
+              --title "$NEXT_VERSION" \
+              --notes-file release_notes.md \
+              --draft
+          fi
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update prd-b Draft Release
         if: steps.check_labels.outputs.has_prd_b == 'true'
-        uses: release-drafter/release-drafter@v6
-        with:
-          config-name: release-drafter/release-drafter-prd-b.yml
+        run: |
+          # 既存のprd-bドラフトを探す
+          EXISTING_DRAFT=$(gh release list --draft --json tagName,id | jq -r '.[] | select(.tagName | startswith("prd-b/")) | .id' | head -1)
+          
+          # PRからリリースノートを生成
+          echo "## Prd B の変更点" > release_notes.md
+          echo "" >> release_notes.md
+          
+          # このPRの情報を追加
+          echo "### このリリースでの変更" >> release_notes.md
+          echo "- #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}" >> release_notes.md
+          
+          if [ -n "$EXISTING_DRAFT" ]; then
+            # 既存ドラフトを更新
+            gh release view "$EXISTING_DRAFT" --json body | jq -r '.body' >> existing_notes.md
+            cat existing_notes.md >> release_notes.md
+            gh release edit "$EXISTING_DRAFT" --notes-file release_notes.md
+          else
+            # 次のバージョンを決定
+            LATEST_VERSION=$(gh release list --exclude-drafts --json tagName | jq -r '.[] | select(.tagName | startswith("prd-b/")) | .tagName' | head -1 | sed 's/prd-b\/v//')
+            if [ -z "$LATEST_VERSION" ]; then
+              NEXT_VERSION="prd-b/v0.1.0"
+            else
+              # パッチバージョンを上げる（簡易実装）
+              NEXT_VERSION="prd-b/v$(echo $LATEST_VERSION | awk -F. '{print $1"."$2"."$3+1}')"
+            fi
+            
+            # 新しいドラフト作成
+            gh release create "$NEXT_VERSION" \
+              --title "$NEXT_VERSION" \
+              --notes-file release_notes.md \
+              --draft
+          fi
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
