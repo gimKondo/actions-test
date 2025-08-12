@@ -17,7 +17,6 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v4
-      
       - name: Update prd-a Draft Release
         uses: release-drafter/release-drafter@v6
         with:
@@ -33,7 +32,6 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v4
-      
       - name: Update prd-b Draft Release
         uses: release-drafter/release-drafter@v6
         with:
