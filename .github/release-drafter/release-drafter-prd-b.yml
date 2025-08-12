@@ -1,5 +1,7 @@
 filter-by-label: true
 
+tag-prefix: 'prd-b-'
+
 # hub-backendのラベルが付いたPRのみを対象
 include-labels:
   - 'service: prd-b'
