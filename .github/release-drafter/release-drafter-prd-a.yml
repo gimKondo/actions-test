@@ -1,4 +1,4 @@
-name-template: 'prd-a/v$RESOLVED_VERSION (Draft)'
+name-template: 'prd-a/v$RESOLVED_VERSION'
 tag-template: 'prd-a/v$RESOLVED_VERSION'
 version-resolver:
   major:
