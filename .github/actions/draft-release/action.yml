@@ -13,3 +13,5 @@ runs:
       uses: release-drafter/release-drafter@v6
       with:
         config-name: release-drafter/release-drafter-${{ inputs.service }}.yml
+        commitish: ${{ github.sha }}
+        tag: ${{ github.ref_name }}
