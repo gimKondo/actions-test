@@ -4,4 +4,4 @@ console.log("Wow! Wow!");
 console.log("new line");
 console.log("my message");
 console.log("When");
-console.log("Cut Man");
+console.log("Cut man");
