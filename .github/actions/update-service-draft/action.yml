@@ -22,10 +22,10 @@ runs:
 
         # patchバージョン部分(連番)を計算
         SERVICE="${{ inputs.service }}"
+        PREFIX="${SERVICE}/v${YEAR}.${MONTH}."
         LATEST=$(gh release list --json tagName | \
-          jq -r '.[] | select(.tagName | startswith("'${SERVICE}'/")) | .tagName' | \
-          grep -E "${SERVICE}/v${YEAR}\.${MONTH}\." | \
-          sed "s/${SERVICE}\/v${YEAR}\.${MONTH}\.//" | \
+          jq -r --arg prefix "$PREFIX" \
+          '.[] | select(.tagName | startswith($prefix)) | .tagName | sub($prefix; "")' | \
           sort -n | tail -1)
 
         if [ -z "$LATEST" ]; then
