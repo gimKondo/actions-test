@@ -1,0 +1,51 @@
+name: Update Service Draft Release
+description: 'Update draft release for a specific service using date-based versioning'
+
+inputs:
+  service:
+    description: 'Service name (e.g., prd-a, prd-b)'
+    required: true
+  github_token:
+    description: 'GitHub token for authentication'
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Calculate date-based version
+      id: version
+      shell: bash
+      run: |
+        # 現在の年月を取得（JST）
+        YEAR=$(TZ='Asia/Tokyo' date +%Y)
+        MONTH=$(TZ='Asia/Tokyo' date +%m)
+
+        # patchバージョン部分(連番)を計算
+        SERVICE="${{ inputs.service }}"
+        LATEST=$(gh release list --json tagName | \
+          jq -r '.[] | select(.tagName | startswith("'${SERVICE}'/")) | .tagName' | \
+          grep -E "${SERVICE}/v${YEAR}\.${MONTH}\." | \
+          sed "s/${SERVICE}\/v${YEAR}\.${MONTH}\.//" | \
+          sort -n | tail -1)
+
+        if [ -z "$LATEST" ]; then
+          NEXT="1"
+        else
+          NEXT=$((LATEST + 1))
+        fi
+
+        VERSION="${YEAR}.${MONTH}.${NEXT}"
+        echo "version=${VERSION}" >> $GITHUB_OUTPUT
+        echo "Calculated version for ${SERVICE}: v${VERSION}"
+      env:
+        GH_TOKEN: ${{ inputs.github_token }}
+
+    - name: Update Draft Release
+      uses: release-drafter/release-drafter@v6
+      with:
+        config-name: release-drafter/release-drafter-${{ inputs.service }}.yml
+        version: ${{ steps.version.outputs.version }}
+        name: ${{ inputs.service }}/v${{ steps.version.outputs.version }}
+        tag: ${{ inputs.service }}/v${{ steps.version.outputs.version }}
+      env:
+        GITHUB_TOKEN: ${{ inputs.github_token }}

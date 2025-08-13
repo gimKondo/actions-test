@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check PR labels
+      - name: Check pull request labels
         id: check_labels
         run: |
           labels=$(echo '${{ toJSON(github.event.pull_request.labels.*.name) }}' | jq -r '.[]')
@@ -29,51 +29,16 @@ jobs:
             echo "has_prd_b=true" >> $GITHUB_OUTPUT
           fi
 
-      - name: Calculate date-based version
-        id: version
-        run: |
-          # 現在の年月を取得（JST）
-          YEAR=$(TZ='Asia/Tokyo' date +%Y)
-          MONTH=$(TZ='Asia/Tokyo' date +%m)
-
-          # prd-a の連番を計算
-          LATEST_A=$(gh release list --json tagName | jq -r '.[] | select(.tagName | startswith("prd-a/")) | .tagName' | grep -E "prd-a/v${YEAR}\.${MONTH}\." | sed "s/prd-a\/v${YEAR}\.${MONTH}\.//" | sort -n | tail -1)
-          if [ -z "$LATEST_A" ]; then
-            NEXT_A="1"
-          else
-            NEXT_A=$((LATEST_A + 1))
-          fi
-          echo "prd_a_version=${YEAR}.${MONTH}.${NEXT_A}" >> $GITHUB_OUTPUT
-
-          # prd-b の連番を計算
-          LATEST_B=$(gh release list --json tagName | jq -r '.[] | select(.tagName | startswith("prd-b/")) | .tagName' | grep -E "prd-b/v${YEAR}\.${MONTH}\." | sed "s/prd-b\/v${YEAR}\.${MONTH}\.//" | sort -n | tail -1)
-          if [ -z "$LATEST_B" ]; then
-            NEXT_B="1"
-          else
-            NEXT_B=$((LATEST_B + 1))
-          fi
-          echo "prd_b_version=${YEAR}.${MONTH}.${NEXT_B}" >> $GITHUB_OUTPUT
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Update prd-a Draft Release
         if: steps.check_labels.outputs.has_prd_a == 'true'
-        uses: release-drafter/release-drafter@v6
+        uses: ./.github/actions/update-service-draft
         with:
-          config-name: release-drafter/release-drafter-prd-a.yml
-          version: ${{ steps.version.outputs.prd_a_version }}
-          name: prd-a/v${{ steps.version.outputs.prd_a_version }}
-          tag: prd-a/v${{ steps.version.outputs.prd_a_version }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          service: prd-a
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update prd-b Draft Release
         if: steps.check_labels.outputs.has_prd_b == 'true'
-        uses: release-drafter/release-drafter@v6
+        uses: ./.github/actions/update-service-draft
         with:
-          config-name: release-drafter/release-drafter-prd-b.yml
-          version: ${{ steps.version.outputs.prd_b_version }}
-          name: prd-b/v${{ steps.version.outputs.prd_b_version }}
-          tag: prd-b/v${{ steps.version.outputs.prd_b_version }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          service: prd-b
+          github_token: ${{ secrets.GITHUB_TOKEN }}
