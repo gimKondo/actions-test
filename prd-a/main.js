@@ -4,4 +4,4 @@ console.log("Wow! Wow!");
 console.log("We are champion!");
 console.log("Changing!");
 console.log("Foo!");
-console.log("Good.");
+console.log("Bad.");
