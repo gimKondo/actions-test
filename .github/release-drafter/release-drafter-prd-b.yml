@@ -1,4 +1,3 @@
-_extends: action-test:.github/release-drafter/release-drafter-base.yml
 # 日付ベースのバージョンをワークフロー側で計算するため、
 # テンプレートは$RESOLVED_VERSIONをそのまま使用
 name-template: '$RESOLVED_VERSION'
@@ -6,3 +5,31 @@ tag-template: '$RESOLVED_VERSION'
 tag-prefix: 'prd-b/'
 include-labels:
   - 'service: prd-b'
+
+version-resolver:
+  major:
+    labels:
+      - 'major'
+  minor:
+    labels:
+      - 'minor'
+  patch:
+    labels:
+      - 'patch'
+  default: patch
+filter-by-label: true
+
+categories:
+  - title: '### ✨ 新機能 & 改善'
+    label: 'enhancement'
+  - title: '### 🐛 バグ修正'
+    label: 'bug'
+  - title: '### 📚 ドキュメント'
+    label: 'documentation'
+  - title: '### ♻️ その他の変更'
+    label: 'other'
+
+template: |
+  ## 変更点
+
+  $CHANGES
