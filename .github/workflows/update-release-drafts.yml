@@ -2,6 +2,8 @@ name: Update Release Drafts
 
 on:
   pull_request:
+    branches:
+      - main
     types:
       - closed
 
