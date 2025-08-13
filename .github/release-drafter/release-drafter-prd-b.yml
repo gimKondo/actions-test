@@ -1,5 +1,7 @@
-name-template: 'prd-b/v$RESOLVED_VERSION'
-tag-template: 'prd-b/v$RESOLVED_VERSION'
+# 日付ベースのバージョンをワークフロー側で計算するため、
+# テンプレートは$RESOLVED_VERSIONをそのまま使用
+name-template: '$RESOLVED_VERSION'
+tag-template: '$RESOLVED_VERSION'
 tag-prefix: 'prd-b/'
 include-labels:
   - 'service: prd-b'
