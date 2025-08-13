@@ -1,4 +1,4 @@
-_extends: .github/release-drafter/release-drafter-base.yml
+_extends: action-test:.github/release-drafter/release-drafter-base.yml
 tag-prefix: 'prd-b/'
 include-labels:
   - 'service: prd-b'
