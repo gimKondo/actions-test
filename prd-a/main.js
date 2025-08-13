@@ -3,3 +3,4 @@ console.log("Yeah!");
 console.log("Wow! Wow!");
 console.log("We are champion!");
 console.log("Changing!");
+console.log("Foo!");
