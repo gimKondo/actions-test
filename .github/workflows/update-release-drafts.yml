@@ -32,9 +32,9 @@ jobs:
       - name: Calculate date-based version
         id: version
         run: |
-          # 現在の年月を取得
-          YEAR=$(date +%Y)
-          MONTH=$(date +%m)
+          # 現在の年月を取得（JST）
+          YEAR=$(TZ='Asia/Tokyo' date +%Y)
+          MONTH=$(TZ='Asia/Tokyo' date +%m)
 
           # prd-a の連番を計算
           LATEST_A=$(gh release list --json tagName | jq -r '.[] | select(.tagName | startswith("prd-a/")) | .tagName' | grep -E "prd-a/v${YEAR}\.${MONTH}\." | sed "s/prd-a\/v${YEAR}\.${MONTH}\.//" | sort -n | tail -1)
