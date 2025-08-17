@@ -14,12 +14,12 @@
 ########################
 # ブランチ名から機能追加・修正系と判定されるとき
 enhancement:
-  - head-branch: ['^feat/', '^feature/']
+  - head-branch: ['^feat', '^feature']
 
 # ブランチ名からバグ修正系と判定されるとき
 bug:
-  - head-branch: ['^fix/', '^bug/', '^hotfix/']
+  - head-branch: ['^fix', '^bug', '^hotfix']
 
 # developブランチからのPRはリリースノートから除外
 skip-changelog:
-  - head-branch: ['develop']
+  - head-branch: ['^develop$']
