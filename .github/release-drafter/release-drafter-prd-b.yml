@@ -5,6 +5,8 @@ tag-template: '$RESOLVED_VERSION'
 tag-prefix: 'prd-b/'
 include-labels:
   - 'service: prd-b'
+exclude-labels:
+  - 'skip-changelog'  # リリースノートから除外
 
 # 日付ベースバージョニングのため、version-resolverは不要
 # バージョンはワークフロー側で計算して明示的に指定
