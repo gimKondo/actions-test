@@ -8,11 +8,27 @@ inputs:
   github_token:
     description: 'GitHub token for authentication'
     required: true
+  pr_labels:
+    description: 'JSON array of PR labels'
+    required: true
 
 runs:
   using: composite
   steps:
+    - name: Check if service label exists
+      id: check_label
+      shell: bash
+      run: |
+        # サービスラベルの存在をチェック
+        if echo '${{ inputs.pr_labels }}' | grep -q "service: ${{ inputs.service }}"; then
+          echo "should_update=true" >> $GITHUB_OUTPUT
+        else
+          echo "should_update=false" >> $GITHUB_OUTPUT
+          echo "Skipping ${{ inputs.service }} - no matching label found"
+        fi
+
     - name: Calculate date-based version
+      if: steps.check_label.outputs.should_update == 'true'
       id: version
       shell: bash
       run: |
@@ -41,6 +57,7 @@ runs:
         GH_TOKEN: ${{ inputs.github_token }}
 
     - name: Update Draft Release
+      if: steps.check_label.outputs.should_update == 'true'
       uses: release-drafter/release-drafter@v6
       with:
         config-name: release-drafter/release-drafter-${{ inputs.service }}.yml
