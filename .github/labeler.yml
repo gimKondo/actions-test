@@ -22,4 +22,5 @@ bug:
 
 # developブランチからのPRはリリースノートから除外
 'skip-changelog':
-  - head-branch: ['^develop']
+  - head-branch:
+    - '^develop'
