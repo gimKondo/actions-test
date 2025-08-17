@@ -20,10 +20,10 @@ runs:
         YEAR=$(TZ='Asia/Tokyo' date +%Y)
         MONTH=$(TZ='Asia/Tokyo' date +%m)
 
-        # patchバージョン部分(連番)を計算
+        # patchバージョン部分(連番)を計算（ドラフトは除外）
         SERVICE="${{ inputs.service }}"
         PREFIX="${SERVICE}/v${YEAR}.${MONTH}."
-        LATEST=$(gh release list --json tagName | \
+        LATEST=$(gh release list --exclude-drafts --json tagName | \
           jq -r --arg prefix "$PREFIX" \
           '.[] | select(.tagName | startswith($prefix)) | .tagName | sub($prefix; "")' | \
           sort -n | tail -1)
