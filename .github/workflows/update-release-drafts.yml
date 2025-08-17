@@ -17,30 +17,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check pull request labels
-        id: check_labels
-        run: |
-          labels=$(echo '${{ toJSON(github.event.pull_request.labels.*.name) }}' | jq -r '.[]')
-          echo "Labels: $labels"
-
-          if echo "$labels" | grep -q "service: prd-a"; then
-            echo "has_prd_a=true" >> $GITHUB_OUTPUT
-          fi
-
-          if echo "$labels" | grep -q "service: prd-b"; then
-            echo "has_prd_b=true" >> $GITHUB_OUTPUT
-          fi
-
       - name: Update prd-a Draft Release
-        if: steps.check_labels.outputs.has_prd_a == 'true'
         uses: ./.github/actions/update-service-draft
         with:
           service: prd-a
+          pr_labels: ${{ toJSON(github.event.pull_request.labels.*.name) }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update prd-b Draft Release
-        if: steps.check_labels.outputs.has_prd_b == 'true'
         uses: ./.github/actions/update-service-draft
         with:
           service: prd-b
+          pr_labels: ${{ toJSON(github.event.pull_request.labels.*.name) }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
