@@ -17,7 +17,6 @@ version-resolver:
     labels:
       - 'patch'
   default: patch
-filter-by-label: true
 
 categories:
   - title: '### ✨ 新機能 & 改善'
