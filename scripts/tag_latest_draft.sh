@@ -48,4 +48,4 @@ tag_name="${SERVICE}/v${YEAR}.${MONTH}.${NEXT}"
 # origin/mainの先頭コミットにタグを作成
 echo "create tag: ${tag_name}"
 git tag -a ${tag_name} -m "${tag_name}" origin/main
-# git push origin ${tag_name}
+git push origin ${tag_name}
