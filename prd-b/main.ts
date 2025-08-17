@@ -5,4 +5,4 @@ console.log("Wow! Wow!");
 console.log("Change! Change!");
 console.log("That's good.");
 console.log("What's wrong?");
-console.log("Why?");
+console.log("Why X?");
