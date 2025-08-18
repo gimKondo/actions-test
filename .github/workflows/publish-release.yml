@@ -3,8 +3,7 @@ name: Publish Release
 on:
   push:
     tags:
-      - 'prd-a/v*'
-      - 'prd-b/v*'
+      - '*/v*'  # 規約: {service}/v{version}
 
 jobs:
   publish_release:
@@ -15,13 +14,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Determine service from tag
+      - name: Extract service from tag
         id: service
         run: |
-          if [[ "${{ github.ref_name }}" == prd-a/* ]]; then
-            echo "service=prd-a" >> $GITHUB_OUTPUT
-          elif [[ "${{ github.ref_name }}" == prd-b/* ]]; then
-            echo "service=prd-b" >> $GITHUB_OUTPUT
+          # タグ名から最初のスラッシュまでを抽出してサービス名とする
+          SERVICE=$(echo "${{ github.ref_name }}" | cut -d'/' -f1)
+          echo "service=${SERVICE}" >> $GITHUB_OUTPUT
+          echo "Detected service: ${SERVICE}"
+
+          # 設定ファイルの存在確認
+          CONFIG_PATH=".github/release-drafter/release-drafter-${SERVICE}.yml"
+          if [ ! -f "${CONFIG_PATH}" ]; then
+            echo "Error: Config file not found: ${CONFIG_PATH}"
+            exit 1
           fi
 
       - name: Publish Release using release-drafter
